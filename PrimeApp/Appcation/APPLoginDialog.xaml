@@ -1,0 +1,44 @@
+﻿<Window x:Class="PrimeApp.Appcation.APPLoginDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PrimeApp.Appcation"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Title="EEngineLogin" Height="500" Width="840" Icon="/Appcation/img_282009.png">
+
+    <Window.Resources>
+        <Style x:Key="ButtonType" TargetType="ToggleButton">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontFamily" Value="Courier New"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Width" Value="400"/>
+
+
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="9*"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+            <ToggleButton Content="New Project" x:Name="NewProject" Style="{StaticResource ButtonType}" Click="OnToggleButton_Click"  IsChecked="True"/>
+            <ToggleButton Content="Load Project" x:Name="LoadProject" Style="{StaticResource ButtonType}" Click="OnToggleButton_Click"  IsChecked="False"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" x:Name="browerContent" Margin="-840, 0, 0, 0">
+            <local:LoadProject />
+            <local:NewProject />
+        </StackPanel>
+        
+    </Grid>
+</Window>

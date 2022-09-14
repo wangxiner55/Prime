@@ -1,4 +1,5 @@
 ﻿using PrimeApp.Appcation;
+using PrimeApp.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +17,31 @@ using System.Windows.Shapes;
 
 namespace PrimeApp.Editors
 {
-	/// <summary>
-	/// ProjectLayoutControl.xaml 的交互逻辑
-	/// </summary>
+
 	public partial class ProjectLayoutControl : UserControl
 	{
+
 		public ProjectLayoutControl()
 		{
 			InitializeComponent();
 		}
 
+
+		private void OnAddGameEntityBotton_Click(object sender , RoutedEventArgs e)
+		{
+			var btn = sender as Button;
+			var vm = btn.DataContext as Scene;
+			vm.AddGameEntityCommand.Execute(new GameEntity(vm) { Name = "Empty Entity" });
+		}
+
+
+		private void OnRemoveGameEntityBotton_Click(object sender, RoutedEventArgs e)
+		{
+			var btn = sender as Button;
+			var vm = btn.DataContext as Scene;
+			vm.RemoveGameEntityCommand.Execute(new GameEntity(vm) { Name = "Empty Entity" });
+		}
+
 	}
+
 }

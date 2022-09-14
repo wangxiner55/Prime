@@ -16,6 +16,11 @@
 
   <ItemGroup>
     <None Remove="Appcation\img_282009.png" />
+    <None Remove="代码规范.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="代码规范.txt" />
   </ItemGroup>
 
   <ItemGroup>

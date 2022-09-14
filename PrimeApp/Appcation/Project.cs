@@ -21,19 +21,65 @@ namespace PrimeApp.Appcation
 	public class Project : ViewModeBase
 	{
 
+		// ***************** Member ***************** //
+
+
+
+		private Scene _activeScene;
+
+		public string FullPath => $@"{Path}{Name}\{Name}{Extension}";
+
+		// Member & Instance
 		public static string Extension { get; } = ".Primal";
+
 		[DataMember]
 		public string Name { get; private set; } = "New Project";
+
 		[DataMember]
 		public string Path { get; private set; }
 
-		public string FullPath => $"{Path}{Name}{Extension}";
-		[DataMember(Name ="Scenes")]
 		private ObservableCollection<Scene> _scenes = new ObservableCollection<Scene>();
 
-		public ReadOnlyObservableCollection<Scene> Scenes { get; private set; }
 
-		private Scene _activeScene;
+
+
+
+
+		// ***************** Instance ***************** //
+
+
+
+		public Project(string name, string path)
+		{
+			Name = name;
+			Path = path;
+
+			OnDeserialized(new StreamingContext());
+
+		}
+
+
+
+		// ***************** Command ***************** //
+
+
+
+		public ICommand RemoveSceneCommand { get; private set; }
+		public ICommand AddSceneCommand { get; private set; }
+
+		public ICommand UndoCommand { get; private set; }
+		public ICommand RedoCommand { get; private set; }
+
+		public ICommand SaveCommand { get; private set; }
+
+
+
+		// ***************** Function ***************** //
+
+
+
+		[DataMember(Name = "Scenes")]
+		public ReadOnlyObservableCollection<Scene> Scenes { get; private set; }
 
 		[DataMember]
 		public Scene ActiveScene
@@ -50,32 +96,16 @@ namespace PrimeApp.Appcation
 			}
 		}
 
+
 		public static Project Current => Application.Current.MainWindow.DataContext as Project;
+
 
 		public static UndoRedo UndoRedo { get; } = new UndoRedo();
 
-		public ICommand RemoveScene { get; private set; }
-		public ICommand AddScene { get; private set; }
-		
-		public ICommand Undo { get; private set; }
-		public ICommand Redo { get; private set; }
 
-
-		private void AddSceneInternal(string SceneName)
-		{
-			Debug.Assert(!string.IsNullOrEmpty(SceneName.Trim()));
-			_scenes.Add(new Scene(this,SceneName));
-		}
-
-		private void RemoveSceneInternal(Scene scene)
-		{
-			Debug.Assert(_scenes.Contains(scene));
-			_scenes.Remove(scene);
-		}
-
+		// -------------- Load & Save Project ---------------//
 		public void unLoad()
 		{
-
 		}
 
 
@@ -85,12 +115,17 @@ namespace PrimeApp.Appcation
 			return Serializer.ReadFromFile<Project>(file);
 		}
 
+
 		public static void Save(Project project)
 		{
 			Serializer.WriteToFile(project, project.FullPath);
 		}
+		// ------------------- Load & Save Project ---------------------//
 
 
+
+
+		// ------------------- Manage Project Scene -------------------- //
 		[OnDeserialized]
 		private void OnDeserialized(StreamingContext context)
 		{
@@ -101,47 +136,55 @@ namespace PrimeApp.Appcation
 			}
 			ActiveScene = Scenes.FirstOrDefault(x => x.IsActive);
 
-			AddScene = new RelayCommand<object>(x =>
+			AddSceneCommand = new RelayCommand<object>(x =>
 			{
-				AddSceneInternal($"New Scene{_scenes.Count}");
+				AddScene($"New Scene{_scenes.Count}");
 				var newScene = _scenes.Last();
 				var sceneIndex = _scenes.Count - 1;
 				UndoRedo.Add(new UndoRedoAction(
-					() => RemoveSceneInternal(newScene),
+					() => RemoveScene(newScene),
 					() => _scenes.Insert(sceneIndex,newScene),
 					$"Add{newScene.Name}"));
 			});
 
-
-			RemoveScene = new RelayCommand<Scene>(x =>
+			RemoveSceneCommand = new RelayCommand<Scene>(x =>
 			{
 				var sceneIndex = _scenes.IndexOf(x);
-				RemoveSceneInternal(x);
+				RemoveScene(x);
 				UndoRedo.Add(new UndoRedoAction(
 					() => _scenes.Insert(sceneIndex, x),
-					() => RemoveSceneInternal(x),
+					() => RemoveScene(x),
 					$"Remove{x.Name}"));
 			}, x => !x.IsActive);
 
-			Undo = new RelayCommand<object>(x => UndoRedo.Undo());
-			Redo = new RelayCommand<object>(x => UndoRedo.Redo());
+			UndoCommand = new RelayCommand<object>(x => UndoRedo.Undo());
+
+			RedoCommand = new RelayCommand<object>(x => UndoRedo.Redo());
+
+			SaveCommand = new RelayCommand<object>(x => Save(this));
 
 		}
 
-		public Project(string name , string path)
+
+		private void AddScene(string SceneName)
 		{
-			Name = name;
-			Path = path;
-
-			OnDeserialized(new StreamingContext());	
-
+			Debug.Assert(!string.IsNullOrEmpty(SceneName.Trim()));
+			_scenes.Add(new Scene(this, SceneName));
 		}
 
 
+		private void RemoveScene(Scene scene)
+		{
+			Debug.Assert(_scenes.Contains(scene));
+			_scenes.Remove(scene);
+		}
+
+
+		// class End
 
 	}
 
-	
 
 
+	//End
 }

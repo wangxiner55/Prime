@@ -21,11 +21,13 @@ namespace PrimeApp.Appcation
 	/// </summary>
 	public partial class NewProject : UserControl
 	{
+
 		public NewProject()
 		{
 			InitializeComponent();
 
 		}
+
 
 		private void On_Create_Click(object sender, RoutedEventArgs e)
 		{
@@ -33,7 +35,7 @@ namespace PrimeApp.Appcation
 			var projectPath = vm.CreateProject(ProjectTmeplateListBox.SelectedItem as ProjectTemple);
 			bool dialogResult = false;
 			var win = Window.GetWindow(this);
-			if(!string.IsNullOrEmpty(projectPath))
+			if (!string.IsNullOrEmpty(projectPath))
 			{
 				dialogResult = true;
 				var project = OpenProject.Open(new ProjectData() { ProjectName = vm.ProjectName, ProjectPath = projectPath });

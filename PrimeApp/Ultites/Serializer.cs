@@ -11,8 +11,10 @@ namespace PrimeApp.Ultites
 {
 	public static class Serializer
 	{
+
 		public static void WriteToFile<T>(T instance ,string path)
 		{
+
 			try
 			{
 				using var fs = new FileStream(path, FileMode.Create);
@@ -23,11 +25,13 @@ namespace PrimeApp.Ultites
 			{
 				Debug.WriteLine(ex.Message);
 			}
+
 		}
 
 
 		internal static T ReadFromFile<T>(string  path)
 		{
+
 			try
 			{
 				using var fs = new FileStream(path, FileMode.Open);
@@ -40,7 +44,9 @@ namespace PrimeApp.Ultites
 				Debug.WriteLine(ex.Message);
 				return default(T);
 			}
+
 		}
 
 	}
+
 }

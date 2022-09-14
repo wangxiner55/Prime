@@ -20,6 +20,7 @@ namespace PrimeApp.Appcation
 	/// </summary>
 	public partial class LoadProject : UserControl
 	{
+
 		public LoadProject()
 		{
 			InitializeComponent();
@@ -31,10 +32,12 @@ namespace PrimeApp.Appcation
 			};
 		}
 
+
 		private void On_OpenButton_Click(object sender, RoutedEventArgs e)
 		{
 			OpenClickedProject();
 		}
+
 
 		private void On_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{

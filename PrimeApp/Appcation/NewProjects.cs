@@ -20,9 +20,17 @@ using System.Windows.Media.Animation;
 
 namespace PrimeApp.Appcation
 {
+
+	
+
 	[DataContract]
 	public class ProjectTemple
 	{
+
+		// ************************* Member *********************** //
+
+
+
 		[DataMember]
 		public string ProjectType { get; set; }
 		[DataMember]
@@ -39,12 +47,72 @@ namespace PrimeApp.Appcation
 		public string ProjectFilePath { get; set; }
 	}
 
+
+
+
 	public class NewProjects : ViewModeBase
 	{
 
-		private readonly string _templatePath = @"..\..\PrimeEditer\ProjectTemplates";
+
+		// ************************* Member *********************** //
+
+
+
+		private ObservableCollection<ProjectTemple> _projectTemplates = new ObservableCollection<ProjectTemple>();
+
+		private string _projectPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\EEngine\EngineProject";
 
 		private string _projectName = "NewProjects";
+
+		private readonly string _templatePath = @"..\..\PrimeEditer\ProjectTemplates";
+
+		private bool _isValid;
+
+		private string _errorMsg;
+
+
+
+		// ********************** Instance ***************************** //
+
+
+
+		public NewProjects()
+		{
+			ProjectTemplates = new ReadOnlyObservableCollection<ProjectTemple>(_projectTemplates);
+
+			try
+			{
+				var templateFiles = Directory.GetFiles(_templatePath, "Template.xml", SearchOption.AllDirectories);
+				Debug.Assert(templateFiles.Any());
+				foreach (var file in templateFiles)
+				{
+
+					var template = Serializer.ReadFromFile<ProjectTemple>(file);
+					template.IconFilePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(file), "Icon.png"));
+					template.Icon = File.ReadAllBytes(template.IconFilePath);
+					template.ScreenShotFilePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(file), "ScreenShot.png"));
+					template.ScreenShot = File.ReadAllBytes(template.ScreenShotFilePath);
+					template.ProjectFilePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(file), template.ProjectFile));
+
+
+
+					//_projectTemplates.Add(template);
+
+				}
+				ValidaProjectPath();
+
+			}
+			catch (Exception ex)
+			{
+				Debug.Write(ex.Message);
+			}
+		}
+
+
+
+		// ************************* Function *********************** //
+
+
 
 		public string ProjectName
 		{
@@ -64,7 +132,7 @@ namespace PrimeApp.Appcation
 			}
 		}
 
-		private string _projectPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\EEngine\EngineProject";
+
 		public string ProjectPath
 		{
 			get
@@ -83,8 +151,6 @@ namespace PrimeApp.Appcation
 		}
 
 
-
-		private bool _isValid;
 		public bool IsValid
 		{
 			get
@@ -103,7 +169,7 @@ namespace PrimeApp.Appcation
 			}
 		}
 
-		private string _errorMsg;
+
 		public string ErrorMsg
 		{
 			get
@@ -121,8 +187,6 @@ namespace PrimeApp.Appcation
 			}
 		}
 
-
-		private ObservableCollection<ProjectTemple> _projectTemplates = new ObservableCollection<ProjectTemple>();
 
 		public ReadOnlyObservableCollection<ProjectTemple> ProjectTemplates
 		{
@@ -168,7 +232,7 @@ namespace PrimeApp.Appcation
 			return IsValid;
 
 
-		}
+		}   //   验证项目路径
 
 
 		public string CreateProject(ProjectTemple template)
@@ -182,7 +246,6 @@ namespace PrimeApp.Appcation
 			if (!Path.EndsInDirectorySeparator(ProjectPath)) ProjectPath += @"\";
 			var path = $@"{ProjectPath}{ProjectName}\";
 
-
 			try
 			{
 				if(!Directory.Exists(path)) Directory.CreateDirectory(path);
@@ -190,13 +253,11 @@ namespace PrimeApp.Appcation
 				{
 					Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Path.GetDirectoryName(path), floder)));
 				}
+
 				var dirInfo = new DirectoryInfo(path + @".Primal\");
 				dirInfo.Attributes |= FileAttributes.Hidden;
 				File.Copy(template.IconFilePath, Path.GetFullPath(Path.Combine(dirInfo.FullName, "Icon.png")));
 				File.Copy(template.ScreenShotFilePath, Path.GetFullPath(Path.Combine(dirInfo.FullName, "ScreenShot.png")));
-
-
-
 				var projectXml = File.ReadAllText(template.ProjectFilePath);
 				projectXml = String.Format(projectXml, ProjectName, ProjectPath);
 				var projectPath = Path.GetFullPath(Path.Combine(path, $"{ProjectName}{Project.Extension}"));
@@ -212,56 +273,6 @@ namespace PrimeApp.Appcation
 			}
 
 		}
-
-
-		public NewProjects()
-		{
-			ProjectTemplates = new ReadOnlyObservableCollection<ProjectTemple>(_projectTemplates);
-
-			try
-			{
-				var templateFiles=Directory.GetFiles(_templatePath, "*.xml", SearchOption.AllDirectories);
-				Debug.Assert(templateFiles.Any());
-				foreach(var file in templateFiles)
-				{
-
-					var template = Serializer.ReadFromFile<ProjectTemple>(file);
-					template.IconFilePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(file), "Icon.png"));
-					template.Icon = File.ReadAllBytes(template.IconFilePath);
-					template.ScreenShotFilePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(file), "ScreenShot.png"));
-					template.ScreenShot = File.ReadAllBytes(template.ScreenShotFilePath);
-					template.ProjectFilePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(file),template.ProjectFile));
-
-					
-
-					_projectTemplates.Add(template);
-
-				}
-				ValidaProjectPath();
-
-			}
-			catch(Exception ex)
-			{
-				Debug.Write(ex.Message);
-			}
-
-
-		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	}

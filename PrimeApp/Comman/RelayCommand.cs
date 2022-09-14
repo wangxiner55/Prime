@@ -9,8 +9,19 @@ namespace PrimeApp
 {
 	class RelayCommand<T> : ICommand
 	{
+
+		// --------------------- Member -------------------- //
+
+
+
 		private readonly Action<T> _execute;
+
 		private readonly Predicate<T> _canExecute;
+
+
+
+		// --------------------- Function -------------------- //
+
 
 
 		public event EventHandler? CanExecuteChanged
@@ -19,15 +30,18 @@ namespace PrimeApp
 			remove { CommandManager.RequerySuggested -= value; }
 		}
 
+
 		public bool CanExecute(object? parameter)
 		{
 			return _canExecute?.Invoke((T)parameter) ?? true;
 		}
 
+
 		public void Execute(object? parameter)
 		{
 			_execute?.Invoke((T)parameter);
 		}
+
 
 		public RelayCommand(Action<T> execute, Predicate<T> canExecute = null)
 		{
@@ -36,5 +50,8 @@ namespace PrimeApp
 			_canExecute = canExecute;
 			
 		}
+
 	}
+
+
 }

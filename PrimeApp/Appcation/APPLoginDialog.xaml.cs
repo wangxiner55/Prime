@@ -20,10 +20,12 @@ namespace PrimeApp.Appcation
 	/// </summary>
 	public partial class APPLoginDialog : Window
 	{
+
 		public APPLoginDialog()
 		{
 			InitializeComponent();
 		}
+
 
 		private void OnToggleButton_Click(object sender, RoutedEventArgs e)
 		{
@@ -35,7 +37,6 @@ namespace PrimeApp.Appcation
 					browerContent.Margin = new Thickness(0);
 				}
 				LoadProject.IsChecked = true;
-
 			}
 			else
 			{
@@ -45,7 +46,6 @@ namespace PrimeApp.Appcation
 					browerContent.Margin = new Thickness(-840, 0, 0, 0);
 				}
 				NewProject.IsChecked = true;
-
 			}
 		}
 

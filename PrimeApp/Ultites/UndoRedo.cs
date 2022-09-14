@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace PrimeApp.Ultites
 {
+
 	public interface IUndoRedo
 	{
 		string Name { get;}
@@ -16,6 +17,8 @@ namespace PrimeApp.Ultites
 		void Undo();
 		void Redo();
 	}
+
+
 
 
 	public class UndoRedoAction : IUndoRedo
@@ -40,6 +43,10 @@ namespace PrimeApp.Ultites
 		}
 	}
 
+
+
+
+
 	public class UndoRedo
 	{
 
@@ -62,6 +69,7 @@ namespace PrimeApp.Ultites
 			_UndoList.Add(cmd);
 			_RedoList.Clear();
 		}
+
 
 		public void Undo()
 		{
@@ -95,4 +103,8 @@ namespace PrimeApp.Ultites
 
 
 	}
+
+
+
+
 }

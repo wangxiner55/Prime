@@ -22,27 +22,38 @@ namespace PrimeApp
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+
 		public MainWindow()
 		{
+
 			InitializeComponent();
+
 			Loaded += OnMainWindowLoaded;
 			Closing += OnMainWindowClosing;
 		}
 
+
 		private void OnMainWindowClosing(object? sender, CancelEventArgs e)
 		{
+
 			Closing -= OnMainWindowClosing;
-			Project.Current?.unLoad();
+			//Project.Current?.unLoad();
 		}
+
 
 		private void OnMainWindowLoaded(object sender, RoutedEventArgs e)
 		{
+
 			Loaded -= OnMainWindowLoaded;
+
 			OpenProjectDialog();
+			
 		}
+
 
 		private void OpenProjectDialog()
 		{
+			
 			var projectBrower = new APPLoginDialog();
 			if (projectBrower.ShowDialog() == false)
 			{
@@ -52,8 +63,10 @@ namespace PrimeApp
 			{
 				Project.Current?.unLoad();
 				DataContext = projectBrower.DataContext;
+				
 			}
 		}
+
 
 		private void WorldEditorView_Loaded(object sender, RoutedEventArgs e)
 		{

@@ -65,8 +65,8 @@ namespace PrimeApp.Appcation
 
 					}
 				}
-			}
-		}
+	}
+}
 
 		private static void WriteProjectData()
 		{

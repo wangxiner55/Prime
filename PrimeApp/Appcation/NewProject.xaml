@@ -13,7 +13,7 @@
     </UserControl.DataContext>
     <StackPanel Background="White" >
         <StackPanel Background="white" Orientation="Horizontal" HorizontalAlignment="Center">
-            <ListBox Width=" 190" Height="250" ItemsSource="{Binding ProjectTemplates}" x:Name="ProjectTmeplateListBox" SelectedIndex="0" BorderThickness="0">
+            <ListBox Width=" 190" Height="250" x:Name="ProjectTmeplateListBox" SelectedIndex="0" BorderThickness="0" ItemsSource="{Binding ProjectTemplates}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -49,7 +49,10 @@
             <Button FontSize="18" Content="Exit Create" Width="200" Margin="5,0,0,0"  BorderThickness="0" IsCancel="True"/>
             
         </StackPanel>
-
-        <TextBlock Text="{Binding ErrorMsg}" Margin="1.0"  HorizontalAlignment="Center" />
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding ErrorMsg}" Margin="1.0"  HorizontalAlignment="Center" />
+            <TextBlock Text="{Binding Count}" Margin="1.0"  HorizontalAlignment="Center" Background="Blue"/>
+        </StackPanel>
+        
     </StackPanel>
 </UserControl>

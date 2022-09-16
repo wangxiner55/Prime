@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="代码规范.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
   </ItemGroup>
 

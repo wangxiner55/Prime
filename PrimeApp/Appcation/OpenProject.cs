@@ -38,6 +38,10 @@ namespace PrimeApp.Appcation
 		
 	}
 
+
+
+
+
 	[DataContract]
 	public class ProjectDataList
 	{
@@ -50,9 +54,12 @@ namespace PrimeApp.Appcation
 		// Class End
 	}
 
+
+
+
+
 	public class OpenProject
 	{
-
 
 		// ******************** Member *********************** //
 
@@ -133,7 +140,7 @@ namespace PrimeApp.Appcation
 					{
 						project.Icon = File.ReadAllBytes($@"{project.ProjectPath}\.Primal\Icon.png");
 						project.ScreenShot = File.ReadAllBytes($@"{project.ProjectPath}\.Primal\ScreenShot.png");
-						//_projects.Add(project);
+						_projects.Add(project);
 
 					}
 				}

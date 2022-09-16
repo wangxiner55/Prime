@@ -58,7 +58,7 @@ namespace PrimeApp.Appcation
 
 
 
-		private ObservableCollection<ProjectTemple> _projectTemplates = new ObservableCollection<ProjectTemple>();
+		private static int g_count;
 
 		private string _projectPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\EEngine\EngineProject";
 
@@ -70,6 +70,8 @@ namespace PrimeApp.Appcation
 
 		private string _errorMsg;
 
+		private readonly ObservableCollection<ProjectTemple> _projectTemplates = new ObservableCollection<ProjectTemple>();
+
 
 
 		// ********************** Instance ***************************** //
@@ -79,7 +81,7 @@ namespace PrimeApp.Appcation
 		public NewProjects()
 		{
 			ProjectTemplates = new ReadOnlyObservableCollection<ProjectTemple>(_projectTemplates);
-
+			
 			try
 			{
 				var templateFiles = Directory.GetFiles(_templatePath, "Template.xml", SearchOption.AllDirectories);
@@ -94,10 +96,7 @@ namespace PrimeApp.Appcation
 					template.ScreenShot = File.ReadAllBytes(template.ScreenShotFilePath);
 					template.ProjectFilePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(file), template.ProjectFile));
 
-
-
-					//_projectTemplates.Add(template);
-
+					_projectTemplates.Add(template);
 				}
 				ValidaProjectPath();
 
@@ -113,13 +112,10 @@ namespace PrimeApp.Appcation
 		// ************************* Function *********************** //
 
 
-
+		//参数实现
 		public string ProjectName
 		{
-			get
-			{
-				return this._projectName;
-			}
+			get => _projectName;
 			set
 			{
 				if(this._projectName != value)
@@ -135,10 +131,7 @@ namespace PrimeApp.Appcation
 
 		public string ProjectPath
 		{
-			get
-			{
-				return this._projectPath;
-			}
+			get => _projectPath;
 			set
 			{
 				if (this._projectPath != value)
@@ -153,10 +146,7 @@ namespace PrimeApp.Appcation
 
 		public bool IsValid
 		{
-			get
-			{
-				return this._isValid;
-			}
+			get => _isValid;
 			set
 			{
 				if (this._isValid != value)
@@ -170,12 +160,18 @@ namespace PrimeApp.Appcation
 		}
 
 
+		public int Count
+		{
+			get => g_count;
+			set { g_count = value;
+				OnPropertyChanged(nameof(Count));
+			}
+		}
+
+
 		public string ErrorMsg
 		{
-			get
-			{
-				return this._errorMsg;
-			}
+			get => _errorMsg;
 			set
 			{
 				if (this._errorMsg != value)
@@ -194,6 +190,7 @@ namespace PrimeApp.Appcation
 		}
 
 
+		// 函数
 		private bool ValidaProjectPath()
 		{
 			var path = ProjectPath;
@@ -238,6 +235,7 @@ namespace PrimeApp.Appcation
 		public string CreateProject(ProjectTemple template)
 		{
 			ValidaProjectPath();
+
 			if(!IsValid)
 			{
 				return string.Empty;

@@ -4,41 +4,152 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PrimeApp.Appcation"
+        xmlns:materialDesign ="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Title="EEngineLogin" Height="500" Width="840" Icon="/Appcation/img_282009.png">
+        WindowStyle="None"
+        WindowState="Normal"
+        Title="EEngineLogin" Height="675" Width="900" Icon="/Appcation/img_282009.png">
 
-    <Window.Resources>
-        <Style x:Key="ButtonType" TargetType="ToggleButton">
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="FontSize" Value="24"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontFamily" Value="Courier New"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="Width" Value="400"/>
+    <materialDesign:DialogHost
+        Identifier="RootDialog"
+        DialogTheme="Inherit"
+        SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
+
+        <materialDesign:DrawerHost
+            IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
 
 
-        </Style>
-    </Window.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="9*"/>
-        </Grid.RowDefinitions>
-        
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-            <ToggleButton Content="New Project" x:Name="NewProject" Style="{StaticResource ButtonType}" Click="OnToggleButton_Click"  IsChecked="True"/>
-            <ToggleButton Content="Load Project" x:Name="LoadProject" Style="{StaticResource ButtonType}" Click="OnToggleButton_Click"  IsChecked="False"/>
-        </StackPanel>
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <DockPanel MinWidth="220">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" Height="500" >
+                        <ToggleButton Content="New Project" x:Name="NewProject"  Height="100" Width="100" IsChecked="True"/>
+                        <ToggleButton Content="Load Project" x:Name="LoadProject"   IsChecked="False"/>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" x:Name="browerContent" Margin="-840, 0, 0, 0">
-            <local:LoadProject />
-            <local:NewProject />
-        </StackPanel>
-        
-    </Grid>
+                        <Button
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Width="200" Height="200"
+                            materialDesign:ButtonAssist.CornerRadius="10"
+                            ToolTip="MaterialDesignRaisedButton with Round Corners"
+                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">
+                            <TextBlock Text="10/50 Radius" />
+                        </Button>
+                        
+                        
+                    </StackPanel>
+                </DockPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+
+
+
+            <DockPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="9*"/>
+                    </Grid.RowDefinitions>
+
+                    <materialDesign:ColorZone
+                    Grid.Row="0"
+                    Padding="16"
+                    Opacity="1"
+                    Background="Black"
+                    materialDesign:ElevationAssist.Elevation="Dp4"
+                    Mode="PrimaryMid"
+                    DockPanel.Dock="Right">
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <ToggleButton
+                                x:Name="MenuToggleButton"
+                                Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                                IsChecked="False"
+
+                                AutomationProperties.Name="HamburgerToggleButton"/>
+                            </StackPanel>
+
+                            <materialDesign:PopupBox
+                            DockPanel.Dock="Right"
+                            PlacementMode="BottomAndAlignRightEdges"
+                            StaysOpen="False">
+
+                                <StackPanel>
+                                    <Grid Margin="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock
+                                        Text="Light"
+                                        Margin="0 0 10 0"/>
+                                        <ToggleButton
+                                        x:Name="DarkModeToggleButton"
+                                        Grid.Column="1"/>
+                                        <TextBlock
+                                        Text="Dark"
+                                        Margin="10 0 0 0"
+                                        Grid.Column="2"/>
+                                        <TextBlock
+                                        Text="Enabled"
+                                        Margin="0 10 10 0"
+                                        Grid.Row="1"/>
+                                        <ToggleButton
+                                        x:Name="ControlsEnabledToggleButton"
+                                        Margin="0 10 0 0"
+                                        
+                                        Grid.Row="1"
+                                        Grid.Column="1"/>
+                                    </Grid>
+
+                                    <Separator/>
+
+                                    <Button
+                                    Content="Hello World"
+                                    />
+
+                                    <Button
+                                    Content="Nice Popup"
+                                   />
+
+                                    <Button
+                                    Content="Can't Touch This"
+                                    IsEnabled="False"/>
+
+                                    <Separator/>
+
+                                    <Button
+                                    Content="Goodbye"
+                                    />
+                                </StackPanel>
+                            </materialDesign:PopupBox>
+
+                            <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="22"
+                            Margin="-152,0,0,0"
+                            AutomationProperties.Name="Material Design In XAML Toolkit"
+                            Text="EEngine"/>
+                        </DockPanel>
+                    </materialDesign:ColorZone>
+                    <local:UCreateProjectView Grid.Row="1"/>
+
+                </Grid>
+                
+                
+                
+
+            </DockPanel>
+
+
+        </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
+
+
 </Window>

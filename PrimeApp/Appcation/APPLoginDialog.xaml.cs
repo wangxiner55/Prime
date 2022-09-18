@@ -27,27 +27,27 @@ namespace PrimeApp.Appcation
 		}
 
 
-		private void OnToggleButton_Click(object sender, RoutedEventArgs e)
-		{
-			if(sender == LoadProject)
-			{
-				if(NewProject.IsChecked == true)
-				{
-					NewProject.IsChecked = false;
-					browerContent.Margin = new Thickness(0);
-				}
-				LoadProject.IsChecked = true;
-			}
-			else
-			{
-				if (LoadProject.IsChecked == true)
-				{
-					LoadProject.IsChecked = false;
-					browerContent.Margin = new Thickness(-840, 0, 0, 0);
-				}
-				NewProject.IsChecked = true;
-			}
-		}
+		//private void OnToggleButton_Click(object sender, RoutedEventArgs e)
+		//{
+		//	if(sender == LoadProject)
+		//	{
+		//		if(NewProject.IsChecked == true)
+		//		{
+		//			NewProject.IsChecked = false;
+		//			browerContent.Margin = new Thickness(0);
+		//		}
+		//		LoadProject.IsChecked = true;
+		//	}
+		//	else
+		//	{
+		//		if (LoadProject.IsChecked == true)
+		//		{
+		//			LoadProject.IsChecked = false;
+		//			browerContent.Margin = new Thickness(0, 0, 0, 0);
+		//		}
+		//		NewProject.IsChecked = true;
+		//	}
+		//}
 
 	}
 }

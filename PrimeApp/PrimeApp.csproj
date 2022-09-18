@@ -15,15 +15,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Appcation\01e36c5e675158a80120a895e2f01d.jpg%403000w_1l_0o_100sh.jpg" />
     <None Remove="Appcation\img_282009.png" />
     <None Remove="代码规范.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="4.6.0" />
     <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Appcation\01e36c5e675158a80120a895e2f01d.jpg@3000w_1l_0o_100sh.jpg" />
     <Resource Include="Appcation\img_282009.png" />
   </ItemGroup>
 
